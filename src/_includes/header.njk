@@ -5,14 +5,14 @@
 {%- endmacro %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">{{ site.title }}</a>
+  <a class="navbar-brand" href="{{ site.baseHref }}">{{ site.title }}</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
     {# Menus #}
     <ul class="navbar-nav mr-auto">
       {% for eachCategory in categories %}
         <li class="nav-item">
-          <a class="nav-link {{ isActive(eachCategory.category) }}" href="{{ eachCategory.url }}">{{ eachCategory.title }}</a>
+          <a class="nav-link {{ isActive(eachCategory.category) }}" href="{{ site.baseHref }}/{{ eachCategory.url }}">{{ eachCategory.title }}</a>
         </li>
       {% endfor %}
     </ul>

@@ -8,7 +8,7 @@ module.exports = collectionApi => {
       title: data.title,
       data,
       category: data.category,
-      url: data.page.url,
+      url: data.page.url.slice(1),
       fileName: tObj.inputPath.split('/').pop()
     };
   };
