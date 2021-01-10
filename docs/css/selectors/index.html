@@ -1,0 +1,109 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | Selectors</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link active" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h1>Common</h1><ul><li>Type selector</li><li>Class selector (.)</li><li>ID selector (#)</li></ul><h1>Complex</h1><ul><li><p>Child selector</p><ul><li><p><strong>Descendant</strong> selector</p><pre><code class="language-css">article p {...}
+</code></pre><pre><code class="language-html">&lt;p&gt;...&lt;/p&gt;
+&lt;article&gt;
+  &lt;p&gt;This will be styled&lt;/p&gt;
+  &lt;div&gt;
+    &lt;p&gt;This will also be styled&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre></li><li><p><strong>Direct child</strong> selector (&gt;)</p><pre><code class="language-css">article &gt; p {...}
+</code></pre><pre><code class="language-html">&lt;p&gt;...&lt;/p&gt;
+&lt;article&gt;
+  &lt;p&gt;This will be styled&lt;/p&gt;
+  &lt;div&gt;
+    &lt;p&gt;...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+</code></pre></li></ul></li><li><p>Sibling selector</p><ul><li><p><strong>General Sibling</strong> selector (~)</p><pre><code class="language-css">h2 ~ p {...}
+</code></pre><pre><code class="language-html">&lt;p&gt;...&lt;/p&gt;
+&lt;section&gt;
+  &lt;p&gt;...&lt;/p&gt;
+  &lt;h2&gt;...&lt;/h2&gt;
+  &lt;p&gt;This will be styled&lt;/p&gt;
+  &lt;div&gt;
+    &lt;p&gt;...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;p&gt;This will also be styled&lt;/p&gt;
+&lt;/section&gt;
+</code></pre></li><li><p><strong>Adjacent Sibling</strong> selector (+)</p><pre><code class="language-css">h2 + p {...}
+</code></pre><pre><code class="language-html">&lt;p&gt;...&lt;/p&gt;
+&lt;section&gt;
+  &lt;p&gt;...&lt;/p&gt;
+  &lt;h2&gt;...&lt;/h2&gt;
+  &lt;p&gt;This will be styled&lt;/p&gt;
+  &lt;div&gt;
+    &lt;p&gt;...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;p&gt;...&lt;/p&gt;
+&lt;/section&gt;
+</code></pre></li></ul></li><li><p>Attribute selector</p><ul><li><p>Attribute <strong>present</strong> selector ([])</p><pre><code class="language-css">a[target] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;
+</code></pre></li><li><p>Attribute <strong>equals</strong> selector ([=&quot;&quot;])</p><pre><code class="language-css">a[href=&quot;http://google.com/&quot;] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;
+</code></pre></li><li><p>Attribute <strong>contains</strong> selector ([*=&quot;&quot;])</p><pre><code class="language-css">a[href*=&quot;login&quot;] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;
+</code></pre></li><li><p>Attribute <strong>begins with</strong> selector ([^=&quot;&quot;])</p><pre><code class="language-css">a[href^=&quot;https://&quot;] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;
+</code></pre></li><li><p>Attribute <strong>ends with</strong> selector ([$=&quot;&quot;])</p><pre><code class="language-css">a[href$=&quot;.pdf&quot;] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;
+</code></pre></li><li><p>Attribute <strong>spaced</strong> selector ([~=&quot;&quot;])</p><pre><code class="language-css">a[rel~=&quot;tag&quot;] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;This will also be styled&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;
+</code></pre></li><li><p>Attribute <strong>hypenated</strong> selector ([|=&quot;&quot;])</p><pre><code class="language-css">a[lang|=&quot;en&quot;] {...}
+</code></pre><pre><code class="language-html">&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://google.com/&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/login.php&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;https://chase.com&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;/docs/menu.pdf&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;tag nofollow&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; rel=&quot;nofollow tag&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;en-US&quot;&gt;This will be styled&lt;/a&gt;
+&lt;a href=&quot;#&quot; lang=&quot;US-en&quot;&gt;...&lt;/a&gt;  &lt;!-- Will not be styled --&gt;
+</code></pre></li></ul></li><li><p>Pseudo-classes (:)</p><ul><li><strong>Link</strong> Pseudo-classes</li><li><strong>User Action</strong> Pseudo-classes</li><li><strong>User Interface State</strong> Pseudo-classes</li><li><strong>Structure and Position</strong> Pseudo-classes</li><li><strong>Target</strong> Pseudo-classes</li><li><strong>Empty</strong> Pseudo-classes</li><li><strong>Negation</strong> Pseudo-classes</li></ul></li><li><p>Pseudo-elements (::)</p><ul><li><strong>Textual</strong> Pseudo-elements</li><li><strong>Generated content</strong> Pseudo-elements</li><li><strong>Fragment</strong> Pseudo-elements</li></ul></li></ul></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>

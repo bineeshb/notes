@@ -1,0 +1,194 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | Forms</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link active" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h2>Template-driven form</h2><pre><code class="language-js">/**
+ *  app.module.ts
+ */
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [
+    ...
+    FormsModule
+  ],
+  ...
+})
+...
+
+
+/**
+ *  a.component.ts
+ */
+...
+export class AComponent {
+  paramA: string;
+  paramB: string;
+  mouseoverLogin: boolean;
+  ...
+  formSubmitted(formValues) {
+    console.log(formValues);
+  }
+}
+</code></pre><pre><code class="language-html">&lt;!--
+    a.component.html
+  --&gt;
+...
+&lt;form #formVar=&quot;ngForm&quot; (ngSubmit)=&quot;formSubmitted(formVar.value)&quot; novalidate&gt;
+  ...
+  &lt;input type=&quot;text&quot; id=&quot;paramA&quot; name=&quot;paramA&quot; (ngModel)=&quot;paramA&quot; required&gt;
+  &lt;span *ngIf=&quot;formVar.controls.paramA?.invalid
+               &amp;&amp; (formVar.controls.paramA?.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+  ...
+  &lt;input type=&quot;text&quot; id=&quot;paramB&quot; name=&quot;paramB&quot; [(ngModel)]=&quot;paramB&quot; required&gt;
+  &lt;span *ngIf=&quot;formVar.controls.paramB?.invalid &amp;&amp;
+               (formVar.controls.paramB?.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+  ...
+  &lt;div ngModelGroup=&quot;groupParam&quot;&gt;
+    ...
+    &lt;input type=&quot;text&quot; id=&quot;paramC&quot; name=&quot;paramC&quot; [(ngModel)]=&quot;paramC&quot;&gt;
+    &lt;span *ngIf=&quot;formVar.controls.groupParam?.controls.paramC.invalid &amp;&amp;
+                 (formVar.controls.groupParam?.controls.paramC.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+    ...
+    &lt;input type=&quot;text&quot; id=&quot;paramD&quot; name=&quot;paramD&quot; [(ngModel)]=&quot;paramD&quot;&gt;
+    &lt;span *ngIf=&quot;formVar.controls.groupParam?.controls.paramD?.invalid &amp;&amp;
+                 (formVar.controls.groupParam?.controls.paramD?.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+    ...
+  &lt;/div&gt;
+  ...
+  &lt;span (mouseenter)=&quot;mouseoverLogin=true&quot; (mouseleave)=&quot;mouseoverLogin=false&quot;&gt;
+    &lt;button type=&quot;submit&quot; [disabled]=&quot;formVar.invalid&quot;&gt;Submit&lt;/button&gt;
+  &lt;/span&gt;
+  ...
+&lt;/form&gt;
+...
+</code></pre><h3>Limitations</h3><ul><li>Not unit testable</li><li>For larger forms, all validation logic in template makes it more complex</li><li>Difficult for cross field validation</li></ul><h2>Reactive / Model-driven form</h2><pre><code class="language-js">/**
+ *  app.module.ts
+ */
+import { ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  imports: [
+    ...
+    ReactiveFormsModule
+  ],
+  ...
+})
+...
+
+
+/**
+ *  a.component.ts
+ */
+...
+import { FormGroup, FormControl } from '@angular/forms';
+...
+export class AComponent implements OnInit {
+  formVar: FormGroup;
+  groupParam: FormGroup;
+  paramA: FormControl = new FormControl();
+  paramB: FormControl = new FormControl();
+  paramC: FormControl = new FormControl();
+  paramD: FormControl = new FormControl();
+  mouseoverLogin: boolean;
+  ...
+  ngOnInit() {
+    this.groupParam = new FormGroup({
+      paramC: this.paramC,
+      paramD: this.paramD
+    });
+    this.formVar = new FormGroup({
+      paramA: this.paramA,
+      paramB: this.paramB,
+      groupParam: this.groupParam
+    });
+  }
+  ...
+  formSubmitted(formValues) {
+    console.log(formValues);
+  }
+}
+</code></pre><pre><code class="language-html">&lt;!--
+    a.component.html
+  --&gt;
+...
+&lt;form [formGroup]=&quot;formVar&quot; (ngSubmit)=&quot;formSubmitted(formVar.value)&quot; novalidate&gt;
+  ...
+  &lt;input type=&quot;text&quot; id=&quot;paramA&quot; formControlName=&quot;paramA&quot;&gt;
+  &lt;span *ngIf=&quot;formVar.controls.paramA?.invalid
+               &amp;&amp; (formVar.controls.paramA?.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+  ...
+  &lt;input type=&quot;text&quot; id=&quot;paramB&quot; formControlName=&quot;paramB&quot;&gt;
+  &lt;span *ngIf=&quot;formVar.controls.paramB?.invalid &amp;&amp;
+               (formVar.controls.paramB?.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+  ...
+  &lt;div formGroupName=&quot;groupParam&quot;&gt;
+    ...
+    &lt;input type=&quot;text&quot; id=&quot;paramC&quot; formControlName=&quot;paramC&quot;&gt;
+    &lt;span *ngIf=&quot;formVar.controls.groupParam?.controls.paramC.invalid &amp;&amp;
+                 (formVar.controls.groupParam?.controls.paramC.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+    ...
+    &lt;input type=&quot;text&quot; id=&quot;paramD&quot; formControlName=&quot;paramD&quot;&gt;
+    &lt;span *ngIf=&quot;formVar.controls.groupParam?.controls.paramD?.invalid &amp;&amp;
+                 (formVar.controls.groupParam?.controls.paramD?.touched || mouseoverLogin)&quot;&gt;Error&lt;/span&gt;
+    ...
+  &lt;/div&gt;
+  ...
+  &lt;span (mouseenter)=&quot;mouseoverLogin=true&quot; (mouseleave)=&quot;mouseoverLogin=false&quot;&gt;
+    &lt;button type=&quot;submit&quot; [disabled]=&quot;formVar.invalid&quot;&gt;Submit&lt;/button&gt;
+  &lt;/span&gt;
+  ...
+&lt;/form&gt;
+...
+</code></pre><h2>Validators</h2><pre><code class="language-js">/**
+ *  some.component.ts
+ */
+import { FormControl, Validators } from '@angular/forms';
+...
+export class SomeComponent {
+	paramA: FormControl;
+	paramB: FormControl;
+	...
+	ngOnInit() {
+		this.paramA = new FormControl('', Validators.required);
+		this.paramB = new FormControl('', [ Validators.required, Validators.maxLength(400) ]);
+	}
+}
+</code></pre><pre><code class="language-html">&lt;!--
+    some.component.html
+  --&gt;
+...
+&lt;input type=&quot;text&quot; id=&quot;paramA&quot; formControlName=&quot;paramA&quot;&gt;
+&lt;span *ngIf=&quot;paramA?.invalid &amp;&amp; paramA?.dirty&quot;&gt;Error&lt;/span&gt;
+...
+&lt;input type=&quot;text&quot; id=&quot;paramB&quot; formControlName=&quot;paramB&quot;&gt;
+&lt;span *ngIf=&quot;paramB?.invalid &amp;&amp; paramB?.dirty &amp;&amp; paramB?.errors.required&quot;&gt;Error&lt;/span&gt;
+&lt;span *ngIf=&quot;paramB?.invalid &amp;&amp; paramB?.dirty &amp;&amp; paramB?.errors.maxlength&quot;&gt;Max Length Error&lt;/span&gt;
+...
+</code></pre><h2>Custom Validators</h2><pre><code class="language-js">/**
+ *  some.validator.ts
+ */
+import { FormControl } from '@angular/forms';
+
+export function someValidator(control: FormControl): {[key: string]: any} {
+	...
+	return (condition) ? { errorKey: value } : null;
+}
+</code></pre><pre><code class="language-js">/**
+ *  some.component.ts
+ */
+import { FormControl, Validators } from '@angular/forms';
+import { someValidator } from './some.validator';
+...
+export class SomeComponent {
+	paramC: FormControl;
+	...
+	ngOnInit() {
+		this.paramC = new FormControl('', [ Validators.required, someValidator ]);
+	}
+}
+</code></pre><pre><code class="language-html">&lt;!--
+    some.component.html
+  --&gt;
+...
+&lt;input type=&quot;text&quot; id=&quot;paramC&quot; formControlName=&quot;paramC&quot;&gt;
+&lt;span *ngIf=&quot;paramC?.invalid &amp;&amp; paramC?.dirty &amp;&amp; paramC?.errors.required&quot;&gt;Error&lt;/span&gt;
+&lt;span *ngIf=&quot;paramC?.invalid &amp;&amp; paramC?.dirty &amp;&amp; paramC?.errors.errorKey&quot;&gt;Error: &lt;/span&gt;
+...
+</code></pre></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>

@@ -1,0 +1,213 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | Routing</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link active" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h2>Basic Routing</h2><pre><code class="language-html">&lt;!--
+    index.html
+  --&gt;
+...
+&lt;head&gt;
+    &lt;base href=&quot;/&quot;&gt;
+    ...
+&lt;/head&gt;
+...
+</code></pre><pre><code class="language-js">/**
+ *  app.routes.ts
+ */
+import { Routes } from '@angular/router';
+
+export const APP_ROUTES: Routes = [
+    { path: 'urlPathA', component: AComponent },
+    { path: 'urlPathB/:id', component: BComponent },
+    { path: '', redirectTo: 'urlPathA', pathMatch: 'full' },
+    { path: '**', component: PageNotFoundComponent }
+];
+
+/**
+ *  app.module.ts
+ */
+import { RouterModule } from '@angular/router';
+import { APP_ROUTES } from './app.routes';
+
+@NgModule({
+    imports: [
+        ...
+        RouterModule.forRoot(APP_ROUTES)
+    ],
+    ...
+})
+...
+
+/**
+ *  b.component.ts
+ */
+...
+import { Router, ActivatedRoute } from '@angular/router';
+...
+export class BComponent implements OnInit {
+    constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+
+    ngOnInit() {
+        console.log(this.activatedRoute.snapshot.params['id']);
+    }
+
+    func() {
+        ...
+        this.router.navigate(['urlPathA'], optionalParam);
+    }
+}
+</code></pre><pre><code class="language-html">&lt;!--
+    app.component.html
+  --&gt;
+...
+&lt;nav&gt;
+    &lt;a routerLink=&quot;/urlPathA&quot;
+       routerLinkActive='className'
+       [routerLinkActiveOptions]=&quot;{exact: true}&quot;&gt;Link&lt;/a&gt;
+    &lt;a [routerLink]=&quot;['/urlPathB', param]&quot; routerLinkActive='className'&gt;Link&lt;/a&gt;
+&lt;/nav&gt;
+...
+&lt;router-outlet&gt;&lt;/router-outlet&gt;
+...
+</code></pre><h2>Listen to Route Parameter changes</h2><pre><code class="language-js">/**
+ *  a.component.ts
+ */
+...
+import { ActivatedRoute, Params } from '@angular/router';
+...
+export class AComponent implements OnInit {
+    constructor(private activatedRoute: ActivatedRoute) { }
+
+    ngOnInit() {
+        this.activatedRoute.params.forEach((params: Params) =&gt; {
+            console.log(params['id']);
+        });
+    }
+}
+</code></pre><h2>Route guards - canActivate, canDeactivate</h2><ul><li><h3>canActivate</h3></li></ul><p>Navigates to the route if condition is true.</p><pre><code class="language-js">/**
+ * route-activator.service.ts
+ */
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+
+@Injectable()
+export class RouteActivatorService implements CanActivate {
+    ...
+    canActivate(route: ActivatedRouteSnapshot) {
+        ...
+        console.log(route.params['id']);
+        ...
+        return booleanValue;
+    }
+}
+
+/**
+ *  app.module.ts
+ */
+import { RouteActivatorService } from './route-activator.service';
+
+@NgModule({
+    ...
+    providers: [ RouteActivatorService ]
+})
+...
+
+/**
+ * app.routes.ts
+ */
+...
+import { RouteActivatorService } from './route-activator.service';
+
+export const APP_ROUTES: Routes = [
+    ...
+    { path: 'urlPathB/:id', component: BComponent,
+        canActivate: [RouteActivatorService] },
+    ...
+];
+</code></pre><ul><li><h3>canDeactivate</h3></li></ul><p>Navigates out of the route if condition is true.</p><pre><code class="language-js">/**
+ * route-activator.service.ts
+ */
+import { Injectable } from '@angular/core';
+import { CanDeactivate } from '@angular/router';
+
+@Injectable()
+export class RouteActivatorService implements CanDeactivate {
+    ...
+    canDeactivate(component) {
+        ...
+        return booleanValue;
+    }
+}
+
+/**
+ *  app.module.ts
+ */
+import { RouteActivatorService } from './route-activator.service';
+
+@NgModule({
+    ...
+    providers: [ RouteActivatorService ]
+})
+...
+
+/**
+ * app.routes.ts
+ */
+...
+import { RouteActivatorService } from './route-activator.service';
+
+export const APP_ROUTES: Routes = [
+    ...
+    { path: 'urlPathB/:id', component: BComponent,
+        canDeactivate: [RouteActivatorService] },
+    ...
+];
+</code></pre><ul><li><h3>resolve</h3></li></ul><p>Pre-loads data for a component</p><pre><code class="language-js">/**
+ * route-resolver.service.ts
+ */
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+
+@Injectable()
+export class RouteResolverService implements Resolve {
+    ...
+    resolve() {
+        ...
+        return asyncDataObservable;
+    }
+}
+
+/**
+ *  app.module.ts
+ */
+import { RouteResolverService } from './route-resolver.service';
+
+@NgModule({
+    ...
+    providers: [ RouteResolverService ]
+})
+...
+
+/**
+ * app.routes.ts
+ */
+...
+import { RouteResolverService } from './route-resolver.service';
+
+export const APP_ROUTES: Routes = [
+    ...
+    { path: 'urlPathA', component: AComponent,
+        resolve: { param: RouteResolverService } },
+    ...
+];
+
+/*
+ * a.component.ts
+ */
+...
+import { ActivatedRoute } from '@angular/router';
+...
+export class AComponent implements OnInit {
+    constructor (private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        this.data = this.route.snapshot.data['param'];
+    }
+}
+</code></pre></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>

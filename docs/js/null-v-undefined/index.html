@@ -1,0 +1,18 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | null v undefined</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link active" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h2>null v undefined</h2><table><thead><tr><th></th><th>null</th><th>undefined</th></tr></thead><tbody><tr><td>means</td><td>Assigned value, means nothing<br>needs explicit assignment</td><td>Variable declared, but not defined.<br><em>Variable's default value.</em></td></tr><tr><td>typeof</td><td>object</td><td>undefined</td></tr></tbody></table><pre><code class="language-js">var a; //undefined
+var b = null; //null
+
+null = 'value' //Reference error
+undefined = 'value' //value
+</code></pre><pre><code class="language-js">null == undefined  //true
+
+null === undefined  //false
+null == 0  //false
+</code></pre><pre><code class="language-js">var undefined = null;
+undefined === null //true
+</code></pre><h3>Function with default parameters</h3><p>undefined is the only value that can't get explicitly passed in for a default-value parameter</p><pre><code class="language-js">function foo(a = 2) {
+  console.log(a);
+}
+
+foo(null);	// null
+foo(undefined);	// 2
+</code></pre></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>

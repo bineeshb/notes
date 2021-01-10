@@ -1,0 +1,30 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | Closure</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link active" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h2>Closure</h2><ul><li>combination of a function enclosed with references to its surrounding state (lexical environment)</li><li>gives you access to an outer function's scope from an inner function</li></ul><h3>Application</h3><ul><li>primary mechanism used to enable <strong>data privacy</strong><ul><li>enclosed variables are only in scope within the containing (outer) function</li><li>can't get the data from an outside scope except through the object's privileged methods (any exposed method defined within the closure scope)</li></ul></li></ul><pre><code class="language-js">function counter() {
+  var count = 0; //only accessible through methods returned
+
+  return {
+    inc: function () { count++; },
+    dec: function () { count--; },
+    getCount: function () { return count; }
+  };
+}
+
+var count1 = new counter();
+
+count1.inc();
+count1.inc();
+console.log(count1.getCount());
+
+count1.dec();
+console.log(count1.getCount());
+</code></pre><ul><li><strong>partial application and currying</strong><ul><li>a function that takes a function with multiple parameters and returns a function with fewer parameters.</li><li>takes advantage of closure scope in order to fix parameters</li></ul></li></ul><pre><code class="language-js">const partialApply = (fn, ...fixedArg) =&gt; {
+  return function (...remainingArg) {
+    return fn.apply(this, fixedArg.concat(remainingArg));
+  };
+};
+
+const add = (a, b) =&gt; a + b;
+
+const add10 = partialApply(add, 10);
+
+console.log(add10(5));
+</code></pre><h3>Resources</h3><ul><li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-closure-b2f0d2152b36">Master the JavaScript Interview: What is a Closure?</a></li></ul></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>

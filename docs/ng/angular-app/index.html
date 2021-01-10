@@ -1,0 +1,110 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | Angular app Structure</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link active" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h2>Bootstrapping Angular app</h2><ol><li><p>angular.json</p><pre><code class="language-js">...
+  &quot;index&quot;: &quot;src/index.html&quot;,
+  &quot;main&quot;: &quot;src/main.ts&quot;,
+...
+</code></pre></li><li><p>main.ts</p><pre><code class="language-js">...
+import { AppModule } from './app/app.module';
+...
+platformBrowserDynamic().bootstrapModule(AppModule)
+      .catch(err =&gt; console.log(err));
+</code></pre></li><li><p>app.module.ts</p><pre><code class="language-js">...
+import { AppComponent } from './app.component';
+...
+@NgModule({
+    ...
+    declarations: [ AppComponent ],
+    bootstrap: [ AppComponent ]
+})
+
+export class AppModule { }
+</code></pre></li><li><p>app.component.ts</p><pre><code class="language-js">...
+@Component({
+    selector: 'app-root',
+    ...
+})
+
+export class AppComponent {
+    ...
+}
+</code></pre></li><li><p>index.html</p><pre><code class="language-html">...
+&lt;body&gt;
+  &lt;app-root&gt;&lt;/app-root&gt;
+&lt;/body&gt;
+...
+</code></pre></li></ol><h2>Accessing Static files</h2><pre><code class="language-js">/**
+ * angular.json
+ */
+...
+  &quot;assets&quot;: [
+    ...
+    &quot;src/assets&quot;
+  ],
+  &quot;styles&quot;: [
+    ...
+    &quot;src/styles.scss&quot;
+  ],
+  &quot;scripts&quot;: [
+    ...
+  ]
+...
+</code></pre><h2>App module</h2><pre><code class="language-js">/**
+ *  app.module.ts
+ */
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+...
+
+@NgModule({
+    imports: [
+      // modules
+      BrowserModule,
+      ...
+      RouterModule.forRoot(APP_ROUTES)
+    ],
+    declarations: [
+      // components
+      // directives
+      // pipes
+    ],
+    providers: [
+      // services
+    ],
+    bootstrap: [
+      // root component
+    ]
+})
+
+export class AppModule { }
+</code></pre><h2>Component</h2><pre><code class="language-js">/**
+ *  some.component.ts
+ */
+import { Component } from '@angular/core';
+...
+
+@Component({
+    selector: 'app-some-component',
+
+    /** including component template */
+    templateUrl: `
+      // path to external template
+    `,
+    /** or */
+    template: `
+      // inline template
+    `,
+
+    /** including component styles */
+    styleUrls: [
+      // paths to external stylesheets
+    ],
+    /** or */
+    styles: [
+      // array of inline styles
+    ]
+})
+
+export class SomeComponent {
+    ...
+}
+</code></pre></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>

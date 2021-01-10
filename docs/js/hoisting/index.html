@@ -1,0 +1,28 @@
+<!doctype html><html class="h-100" lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Notes | Hoisting</title><base href="/notes/"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"></head><body class="h-100"><nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="/">Notes</a><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav mr-auto"><li class="nav-item"><a class="nav-link" href="/css/">CSS</a></li><li class="nav-item"><a class="nav-link" href="/html/">HTML</a></li><li class="nav-item"><a class="nav-link active" href="/js/">JavaScript</a></li><li class="nav-item"><a class="nav-link" href="/ng/">Angular</a></li></ul></div></nav><div class="container-fluid py-3 content-wrapper"><div class="row"><div class="col-10 offset-1"><h1>Hoisting</h1><blockquote><p>Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution.</p></blockquote><h2>Hoisting variables</h2><pre><code class="language-sh">&gt; a = 20
+&gt;
+&gt; var a;
+&gt;
+&gt; console.log(a) // Output: 20
+&gt;
+&gt; console.log(b) // Output: ReferenceError: b is not defined
+&gt;
+/**NOTE: reference error thrown when trying to access undeclared variable b **/
+</code></pre><h2>Hoisting function</h2><h3>Function declarations</h3><pre><code class="language-sh">&gt;test(); // Output: Hello World
+&gt;
+&gt;function test(){
+&gt;
+&gt;    console.log('Hello World');
+&gt;
+&gt;}
+</code></pre><h3>Function expressions</h3><pre><code class="language-sh">&gt;expression(); // Output: TypeError: expression is not a function
+&gt;
+&gt;var expression = function() {
+&gt;
+&gt;  console.log('Will this work?');
+&gt;
+&gt;};
+&gt;
+/**NOTE: In JavaScript all variables and functions declared at the top of the global scope.
+   Its mean if we initialized function like example above then 
+   it was just hoisted in the scope not initialized.**/
+</code></pre></div></div></div><script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script></body></html>
