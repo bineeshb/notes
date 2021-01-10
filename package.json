@@ -1,0 +1,28 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "learning notes",
+  "main": "index.js",
+  "scripts": {
+    "build": "set NODE_ENV=production&& npx eleventy",
+    "start": "npx eleventy --serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bineeshb/notes.git"
+  },
+  "keywords": [
+    "11ty",
+    "markdown"
+  ],
+  "author": "bineeshb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bineeshb/notes/issues"
+  },
+  "homepage": "https://github.com/bineeshb/notes#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.11.1",
+    "html-minifier": "^4.0.0"
+  }
+}
