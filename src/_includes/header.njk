@@ -1,5 +1,7 @@
-{% macro isActive(pageTitle) -%}
-  {%- if pageTitle == title -%}active{%- endif -%}
+{% set categories = collections.groups.categories %}
+
+{% macro isActive(pageCategory) -%}
+  {%- if pageCategory == category -%}active{%- endif -%}
 {%- endmacro %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -7,27 +9,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
     {# Menus #}
-    {# <ul class="navbar-nav mr-auto">
-      {% for item in menus %}
-        {% if item.childLinks.length > 0 %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="{{ item.link }}" id="navbarDropdown" role="button"
-              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ item.i18nKey | i18n }}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              {% for childItem in item.childLinks %}
-                <a class="dropdown-item" href="{{ item.link }}/{{ childItem.link }}">{{ childItem.i18nKey | i18n }}</a>
-              {% endfor %}
-            </div>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ item.link }}">{{ item.i18nKey | i18n }}</a>
-          </li>
-        {% endif %}
+    <ul class="navbar-nav mr-auto">
+      {% for eachCategory in categories %}
+        <li class="nav-item">
+          <a class="nav-link {{ isActive(eachCategory.category) }}" href="{{ eachCategory.url }}">{{ eachCategory.title }}</a>
+        </li>
       {% endfor %}
-    </ul> #}
+    </ul>
     {# Menus #}
 
   </div>

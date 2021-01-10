@@ -1,3 +1,4 @@
 {
-  "category": "css"
+  "category": "css",
+  "layout": "category-page.njk"
 }

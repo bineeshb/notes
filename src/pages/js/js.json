@@ -1,3 +1,4 @@
 {
-  "category": "js"
+  "category": "js",
+  "layout": "category-page.njk"
 }

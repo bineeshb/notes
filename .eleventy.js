@@ -2,7 +2,7 @@ const del = require('del');
 const htmlmin = require('html-minifier');
 
 const site = require('./src/_data/site');
-// const getPageGroups = require('./11ty-scripts/getPageGroups');
+const getPageGroups = require('./11ty-scripts/getPageGroups');
 
 const prodOutputDir = 'docs';
 const devOutputDir = 'dist';
@@ -39,7 +39,7 @@ module.exports = function (eleventyConfig) {
   // HTML Minification
   eleventyConfig.addTransform('htmlmin', minifyHTML);
 
-  // eleventyConfig.addCollection('groups', getPageGroups);
+  eleventyConfig.addCollection('groups', getPageGroups);
 
   return {
     passthroughCopy: true,

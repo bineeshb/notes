@@ -1,3 +1,4 @@
 {
-  "category": "ng"
+  "category": "ng",
+  "layout": "category-page.njk"
 }
