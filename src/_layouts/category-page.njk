@@ -3,12 +3,14 @@
 {% set articles = collections.groups.articles[category] %}
 
 {% block centeredPageContent %}
-  <h2 class="mb-4">{{ title }}</h2>
-  <ul>
+<h2 class="mb-4">{{ title }}</h2>
+<div class="container">
+  <ul class="row">
     {% for article in articles %}
-      <li>
+      <li class="col-12 col-sm-6 col-md-4">
         <a href="{{ site.baseHref }}/{{ article.url }}">{{ article.title }}</a>
       </li>
     {% endfor %}
   </ul>
+</div>
 {% endblock centeredPageContent %}

@@ -36,10 +36,10 @@ module.exports = function (eleventyConfig) {
     });
   }
 
+  eleventyConfig.addCollection('groups', getPageGroups);
+
   // HTML Minification
   eleventyConfig.addTransform('htmlmin', minifyHTML);
-
-  eleventyConfig.addCollection('groups', getPageGroups);
 
   return {
     passthroughCopy: true,

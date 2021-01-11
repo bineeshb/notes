@@ -1,48 +1,51 @@
+const getFrontMatter = tObj => {
+  const data = tObj.data;
+  return {
+    title: data.title,
+    data,
+    category: data.category,
+    url: data.page.url.slice(1),
+    fileName: tObj.inputPath.split('/').pop()
+  };
+};
+
+const sortByTitle = (a, b) => {
+  const aTitle = a.title.toUpperCase();
+  const bTitle = b.title.toUpperCase();
+
+  if (aTitle < bTitle) {
+    return -1;
+  }
+
+  if (aTitle > bTitle) {
+    return 1;
+  }
+
+  return 0;
+};
+
+const segregateFn = segregateKey => (acc, page) => {
+  const key = `${page[segregateKey]}`;
+
+  if (acc[key]) {
+    acc[key].push(page);
+  } else {
+    acc[key] = [page];
+  }
+
+  return acc;
+};
+
 module.exports = collectionApi => {
-  const pageOrder = ['index.md'];
-  const pageOrderLength = pageOrder.length;
-
-  const getFrontMatter = tObj => {
-    const data = tObj.data;
-    return {
-      title: data.title,
-      data,
-      category: data.category,
-      url: data.page.url.slice(1),
-      fileName: tObj.inputPath.split('/').pop()
-    };
-  };
-
-  const sortByFileName = (a, b) => {
-    let aIndex = pageOrder.indexOf(a.fileName);
-    aIndex = aIndex !== -1 ? aIndex : pageOrderLength;
-    let bIndex = pageOrder.indexOf(b.fileName);
-    bIndex = bIndex !== -1 ? bIndex : pageOrderLength;
-
-    return aIndex - bIndex;
-  };
-
   const categories = collectionApi
     .getFilteredByTag('category')
     .map(getFrontMatter)
-    .sort(sortByFileName);
+    .sort(sortByTitle);
 
   const articles = collectionApi
     .getFilteredByTag('article')
     .map(getFrontMatter)
-    .sort(sortByFileName);
-
-  const segregateFn = segregateKey => (acc, page) => {
-    const key = `${page[segregateKey]}`;
-
-    if (acc[key]) {
-      acc[key].push(page);
-    } else {
-      acc[key] = [page];
-    }
-
-    return acc;
-  };
+    .sort(sortByTitle);
 
   const groups = {
     categories,

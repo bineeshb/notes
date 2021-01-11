@@ -1,13 +1,13 @@
 {% extends './base.njk' %}
 
 {% block baseContent %}
-  <div class="container-fluid py-3 content-wrapper">
-    <div class="row">
-      <div class="col-10 offset-1">
-        {% block centeredPageContent %}
-          {{ content | safe }}
-        {% endblock centeredPageContent %}
-      </div>
+<div class="container-fluid py-3">
+  <div class="row">
+    <div class="col-10 offset-1">
+      {% block centeredPageContent %}
+        {{ content | safe }}
+      {% endblock centeredPageContent %}
     </div>
   </div>
+</div>
 {% endblock baseContent %}
