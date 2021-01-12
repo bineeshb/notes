@@ -5,7 +5,8 @@ const getFrontMatter = tObj => {
     data,
     category: data.category,
     url: data.page.url.slice(1),
-    fileName: tObj.inputPath.split('/').pop()
+    fileName: tObj.inputPath.split('/').pop(),
+    date: data.date
   };
 };
 
@@ -19,6 +20,21 @@ const sortByTitle = (a, b) => {
 
   if (aTitle > bTitle) {
     return 1;
+  }
+
+  return 0;
+};
+
+const reverseSortByDate = (a, b) => {
+  const aDate = new Date(`${a.date}`);
+  const bDate = new Date(`${b.date}`);
+
+  if (aDate < bDate) {
+    return 1;
+  }
+
+  if (aDate > bDate) {
+    return -1;
   }
 
   return 0;
@@ -44,12 +60,22 @@ module.exports = collectionApi => {
 
   const articles = collectionApi
     .getFilteredByTag('article')
-    .map(getFrontMatter)
-    .sort(sortByTitle);
+    .map(getFrontMatter);
+
+  const latestArticles = articles
+    .sort(reverseSortByDate)
+    .reduce(segregateFn('category'), {});
+
+  let last10Articles = {};
+
+  Object.keys(latestArticles).forEach((category) => {
+    last10Articles[category] = latestArticles[category].slice(0, 10);
+  });
 
   const groups = {
     categories,
-    articles: articles.reduce(segregateFn('category'), {})
+    latestArticles: last10Articles,
+    articles: articles.sort(sortByTitle).reduce(segregateFn('category'), {})
   };
 
   return groups;

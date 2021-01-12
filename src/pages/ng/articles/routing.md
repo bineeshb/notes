@@ -1,7 +1,19 @@
 ---
 title: 'Routing'
-date: 2018-10-02
+date: 2021-01-08
 ---
+
+- resolve - data resolve before loading the path/component
+- canActivate 
+- canDeactivate
+- children
+- loadChildren - lazy loading
+
+
+| Eager Loading | Lazy Loading | Pre-Loading |
+|---|---|---|
+| default | on demand | loads after eager loading files/modules based on preLoadingStrategy |
+
 
 ## Basic Routing
 

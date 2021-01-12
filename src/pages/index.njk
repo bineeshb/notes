@@ -1,0 +1,23 @@
+{% extends '../_layouts/centered-page.njk' %}
+
+{% set categories = collections.groups.categories %}
+{% set latestArticles = collections.groups.latestArticles %}
+
+{% block centeredPageContent %}
+<div class="container">
+  <div class="row">
+    {% for eachCategory in categories %}
+      <div class="col-12 col-sm-6 col-md-4">
+      <h2 class="mb-4">{{ eachCategory.title }}</h2>
+      <ul>
+        {% for eachArticle in latestArticles[eachCategory.category] %}
+        <li>
+          <a href="{{ site.baseHref }}/{{ eachArticle.url }}">{{ eachArticle.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock centeredPageContent %}
