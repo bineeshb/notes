@@ -9,7 +9,7 @@ Hoisting is a JavaScript mechanism where variables and function declarations are
 before code execution.
 
 ## Hoisting variables
-```sh
+```js
  a = 20
 
  var a;
@@ -22,23 +22,19 @@ before code execution.
 ```
 ## Hoisting function
 ### Function declarations
-```sh
+```js
 test(); // Output: Hello World
 
 function test(){
-
-    console.log('Hello World');
-
+  console.log('Hello World');
 }
 ```
 ### Function expressions
-```sh
+```js
 expression(); // Output: TypeError: expression is not a function
 
 var expression = function() {
-
   console.log('Will this work?');
-
 };
 
 /**NOTE: In JavaScript all variables and functions declared at the top of the global scope.

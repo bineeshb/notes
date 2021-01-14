@@ -1,8 +1,10 @@
 const del = require('del');
 const htmlmin = require('html-minifier');
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 
 const site = require('./src/_data/site');
 const getPageGroups = require('./11ty-scripts/getPageGroups');
+const addBootStrapClasses = require('./11ty-scripts/addBootStrapClasses');
 
 const prodOutputDir = 'docs';
 const devOutputDir = 'dist';
@@ -13,6 +15,7 @@ const outputDir = site.isProdBuild ? prodOutputDir : devOutputDir;
  */
 function minifyHTML(content, outputPath) {
   if (outputPath.endsWith('.html')) {
+    content = addBootStrapClasses(content);
     let minified = htmlmin.minify(content, {
       useShortDoctype: true,
       removeComments: true,
@@ -37,6 +40,9 @@ module.exports = function (eleventyConfig) {
   }
 
   eleventyConfig.addCollection('groups', getPageGroups);
+
+  // Syntax Highlighting
+  eleventyConfig.addPlugin(syntaxHighlight);
 
   // HTML Minification
   eleventyConfig.addTransform('htmlmin', minifyHTML);
